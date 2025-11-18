@@ -1,4 +1,24 @@
 /var/
 /vendor/
+.env
 .env.local
 .env.*.local
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+# Local environment file (should not be pushed)
+/.env
+
+# Docker local files (optional: ignore if you don't want to commit local docker configs)
+docker/
+
+# Local/generated migrations you don't want to commit (change pattern if you want to keep migrations in VCS)
+migrations/Version*.php
+
+# Local auth scaffold (controller/templates) if you do not wish to commit them
+src/Controller/AuthController.php
+templates/auth/
+
+# Lexik JWT bundle config (if it's local-only)
+config/packages/lexik_jwt_authentication.yaml
