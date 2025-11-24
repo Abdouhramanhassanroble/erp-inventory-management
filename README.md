@@ -41,7 +41,7 @@ php bin/console doctrine:migrations:migrate
 - [x] Setup Symfony + Docker
 - [x] Configuration PostgreSQL
 - [x] Entité User
-- [ ] Authentification JWT
+- [x] Authentification JWT
 - [ ] CRUD Produits
 - [ ] CRUD Inventaires
 - [ ] Dashboard KPIs
