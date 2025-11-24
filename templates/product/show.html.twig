@@ -1,0 +1,231 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - Détails{% endblock %}
+
+{% block body %}
+<style>
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4c4b0 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .product-header-card {
+        background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(217, 119, 6, 0.3);
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+    }
+    .product-header-card h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .product-id-badge {
+        display: inline-block;
+        background: rgba(255,255,255,0.3);
+        padding: 6px 16px;
+        border-radius: 20px;
+        margin-top: 12px;
+        font-weight: 700;
+    }
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        padding: 2.5rem;
+        margin-bottom: 1.5rem;
+        border: 3px solid #fef3c7;
+    }
+    .price-card {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 3px dashed #f59e0b;
+        text-align: center;
+        padding: 2rem;
+        border-radius: 20px;
+        margin: 2rem 0;
+    }
+    .price-label {
+        font-size: 1.2rem;
+        color: #92400e;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    .price-value {
+        font-size: 3.5rem;
+        font-weight: bold;
+        color: #d97706;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 2rem 0;
+    }
+    .info-box {
+        background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        padding: 20px;
+        border-radius: 16px;
+        border-left: 5px solid #f59e0b;
+    }
+    .info-label {
+        font-weight: 700;
+        color: #92400e;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+    .info-value {
+        color: #1f2937;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    .description-box {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        padding: 24px;
+        border-radius: 16px;
+        border: 2px solid #f59e0b;
+        margin: 2rem 0;
+    }
+    .description-box p {
+        color: #78350f;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin: 0;
+    }
+    .stock-display {
+        text-align: center;
+        padding: 20px;
+        border-radius: 16px;
+        margin: 2rem 0;
+    }
+    .stock-high {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        border: 3px solid #10b981;
+        color: #065f46;
+    }
+    .stock-medium {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border: 3px solid #f59e0b;
+        color: #92400e;
+    }
+    .stock-low {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        border: 3px solid #ef4444;
+        color: #991b1b;
+    }
+    .stock-value {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 12px 0;
+    }
+    .actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    .btn {
+        padding: 14px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        flex: 1;
+        min-width: 150px;
+        text-align: center;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(217, 119, 6, 0.4);
+    }
+    .btn-secondary {
+        background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        color: white;
+    }
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(107, 114, 128, 0.4);
+    }
+    .btn-danger {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        color: white;
+    }
+    .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+    }
+</style>
+
+<div class="container">
+    <div class="product-header-card">
+        <h1>{{ product.name }}</h1>
+        <div class="product-id-badge">Produit #{{ product.id }}</div>
+    </div>
+
+    <div class="card">
+        <div class="price-card">
+            <div class="price-label">Prix de vente</div>
+            <div class="price-value">{{ product.price|number_format(2, ',', ' ') }} €</div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-box">
+                <div class="info-label">Référence</div>
+                <div class="info-value">{{ product.reference }}</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Date d'ajout</div>
+                <div class="info-value">{{ product.created_at ? product.created_at|date('d/m/Y') : 'N/A' }}</div>
+            </div>
+        </div>
+
+        {% if product.description %}
+        <div class="description-box">
+            <p><strong>Description :</strong><br>{{ product.description }}</p>
+        </div>
+        {% endif %}
+
+        <div class="stock-display {% if product.stock > 10 %}stock-high{% elseif product.stock > 0 %}stock-medium{% else %}stock-low{% endif %}">
+            <div style="font-size: 1.2rem; font-weight: 700; margin-bottom: 8px;">Stock disponible</div>
+            <div class="stock-value">
+                {% if product.stock > 10 %}
+                    ✅ {{ product.stock }} unités
+                {% elseif product.stock > 0 %}
+                    ⚠️ {{ product.stock }} unités
+                {% else %}
+                    ❌ Rupture de stock
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">✏️ Modifier</a>
+            <a href="{{ path('app_product_index') }}" class="btn btn-secondary">← Retour au marché</a>
+            <form method="post" action="{{ path('app_product_delete', {'id': product.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');" style="display: inline; flex: 1;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+                <button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

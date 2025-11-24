@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ product.name }} - Marché{% endblock %}
+
+{% block body %}
+<script>
+    // Vérifier si l'utilisateur est connecté avant d'afficher la page
+    window.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Vous devez être connecté pour modifier un produit.');
+            window.location.href = '{{ path('login_page') }}';
+        }
+    });
+</script>
+<style>
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4c4b0 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        padding: 2.5rem;
+        border: 3px solid #fef3c7;
+    }
+    .card-header {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        margin: -2.5rem -2.5rem 2rem -2.5rem;
+        padding: 2rem;
+        border-radius: 20px 20px 0 0;
+        color: white;
+        text-align: center;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2.2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .form-group {
+        margin-bottom: 1.8rem;
+    }
+    label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: #92400e;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .form-control {
+        width: 100%;
+        padding: 14px 18px;
+        border: 3px solid #fde68a;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s;
+        box-sizing: border-box;
+        background: #fef3c7;
+        font-family: inherit;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #f59e0b;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+    }
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+    .form-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 2.5rem;
+    }
+    .btn {
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        flex: 1;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(217, 119, 6, 0.4);
+    }
+    .btn-secondary {
+        background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        color: white;
+    }
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(107, 114, 128, 0.4);
+    }
+    .form-error {
+        color: #dc2626;
+        font-size: 14px;
+        margin-top: 6px;
+        font-weight: 600;
+    }
+    .form-help {
+        color: #92400e;
+        font-size: 13px;
+        margin-top: 6px;
+        font-style: italic;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>✏️ Modifier le produit</h1>
+        </div>
+
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.name) }}
+                <div class="form-help">Le nom du produit tel qu'il apparaîtra sur le marché</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.reference) }}
+                {{ form_widget(form.reference, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.reference) }}
+                <div class="form-help">Code de référence unique pour ce produit</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+                <div class="form-help">Description détaillée du produit (optionnel)</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.price) }}
+                {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.price) }}
+                <div class="form-help">Prix de vente en euros</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.stock) }}
+                {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'min': '0'}}) }}
+                {{ form_errors(form.stock) }}
+                <div class="form-help">Quantité disponible en stock</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">💾 Enregistrer les modifications</button>
+                <a href="{{ path('app_product_index') }}" class="btn btn-secondary">❌ Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
