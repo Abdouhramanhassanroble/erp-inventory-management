@@ -42,7 +42,7 @@ php bin/console doctrine:migrations:migrate
 - [x] Configuration PostgreSQL
 - [x] Entité User
 - [x] Authentification JWT
-- [ ] CRUD Produits
+- [x] CRUD Produits
 - [ ] CRUD Inventaires
 - [ ] Dashboard KPIs
 - [ ] Exports Excel
