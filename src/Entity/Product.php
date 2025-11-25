@@ -34,7 +34,7 @@ class Product
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(nullable: true)]
+    // Champ non mappé en base de données (colonne updated_at n'existe pas)
     private ?\DateTimeImmutable $updatedAt = null;
 
     /**

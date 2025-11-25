@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Produit - Marché{% endblock %}
+{% block title %}Nouveau Produit - ERP{% endblock %}
 
 {% block body %}
 <script>
@@ -15,10 +15,10 @@
 </script>
 <style>
     body {
-        font-family: 'Georgia', 'Times New Roman', serif;
-        background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4c4b0 100%);
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        background: #f8f9fa;
         margin: 0;
-        padding: 20px;
+        padding: 2rem;
         min-height: 100vh;
     }
     .container {
@@ -26,151 +26,159 @@
         margin: 0 auto;
     }
     .card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        padding: 2.5rem;
-        border: 3px solid #fef3c7;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 0;
+        border: 1px solid #e9ecef;
     }
     .card-header {
-        background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
-        margin: -2.5rem -2.5rem 2rem -2.5rem;
-        padding: 2rem;
-        border-radius: 20px 20px 0 0;
-        color: white;
-        text-align: center;
+        background: #ffffff;
+        padding: 2rem 2rem 1rem;
+        border-bottom: 1px solid #e9ecef;
+        border-radius: 8px 8px 0 0;
     }
     h1 {
         margin: 0;
-        font-size: 2.2rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #212529;
+        letter-spacing: -0.5px;
     }
     .form-group {
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.5rem;
     }
     label {
         display: block;
-        margin-bottom: 0.8rem;
-        color: #92400e;
-        font-weight: 700;
-        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        color: #212529;
+        font-weight: 500;
+        font-size: 0.9375rem;
     }
     .form-control {
         width: 100%;
-        padding: 14px 18px;
-        border: 3px solid #fde68a;
-        border-radius: 12px;
-        font-size: 16px;
-        transition: all 0.3s;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 0.9375rem;
+        transition: all 0.2s;
         box-sizing: border-box;
-        background: #fef3c7;
+        background: #ffffff;
         font-family: inherit;
+        color: #212529;
     }
     .form-control:focus {
         outline: none;
-        border-color: #f59e0b;
-        background: white;
-        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
     }
     textarea.form-control {
         resize: vertical;
-        min-height: 120px;
+        min-height: 100px;
+    }
+    .form-body {
+        padding: 2rem;
     }
     .form-actions {
         display: flex;
-        gap: 16px;
-        margin-top: 2.5rem;
+        gap: 0.75rem;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e9ecef;
     }
     .btn {
-        padding: 16px 32px;
-        border-radius: 12px;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
         text-decoration: none;
-        font-weight: 700;
+        font-weight: 500;
         display: inline-block;
-        transition: all 0.3s;
-        border: none;
+        transition: all 0.2s;
+        border: 1px solid transparent;
         cursor: pointer;
-        font-size: 16px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-size: 0.9375rem;
         flex: 1;
+        text-align: center;
     }
     .btn-primary {
-        background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        background: #0d6efd;
         color: white;
+        border-color: #0d6efd;
     }
     .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+        background: #0b5ed7;
+        border-color: #0a58ca;
     }
     .btn-secondary {
-        background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        background: #6c757d;
         color: white;
+        border-color: #6c757d;
     }
     .btn-secondary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(107, 114, 128, 0.4);
+        background: #5c636a;
+        border-color: #565e64;
     }
     .form-error {
-        color: #dc2626;
-        font-size: 14px;
-        margin-top: 6px;
-        font-weight: 600;
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        font-weight: 400;
     }
     .form-help {
-        color: #92400e;
-        font-size: 13px;
-        margin-top: 6px;
-        font-style: italic;
+        color: #6c757d;
+        font-size: 0.8125rem;
+        margin-top: 0.25rem;
     }
 </style>
 
 <div class="container">
     <div class="card">
         <div class="card-header">
-            <h1>➕ Ajouter un nouveau produit au marché</h1>
+            <h1>Nouveau Produit</h1>
         </div>
 
-        {{ form_start(form) }}
-            <div class="form-group">
-                {{ form_label(form.name) }}
-                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Pommes Golden Delicious'}}) }}
-                {{ form_errors(form.name) }}
-                <div class="form-help">Le nom du produit tel qu'il apparaîtra sur le marché</div>
-            </div>
+        <div class="form-body">
+            {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Pommes Golden Delicious'}}) }}
+                    {{ form_errors(form.name) }}
+                    <div class="form-help">Le nom du produit tel qu'il apparaîtra dans le catalogue</div>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.reference) }}
-                {{ form_widget(form.reference, {'attr': {'class': 'form-control', 'placeholder': 'Ex: PROD-001'}}) }}
-                {{ form_errors(form.reference) }}
-                <div class="form-help">Code de référence unique pour ce produit</div>
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.reference) }}
+                    {{ form_widget(form.reference, {'attr': {'class': 'form-control', 'placeholder': 'Ex: PROD-001'}}) }}
+                    {{ form_errors(form.reference) }}
+                    <div class="form-help">Code de référence unique pour ce produit</div>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.description) }}
-                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Décrivez votre produit...'}}) }}
-                {{ form_errors(form.description) }}
-                <div class="form-help">Description détaillée du produit (optionnel)</div>
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.description) }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Décrivez votre produit...'}}) }}
+                    {{ form_errors(form.description) }}
+                    <div class="form-help">Description détaillée du produit (optionnel)</div>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.price) }}
-                {{ form_widget(form.price, {'attr': {'class': 'form-control', 'placeholder': '0.00'}}) }}
-                {{ form_errors(form.price) }}
-                <div class="form-help">Prix de vente en euros</div>
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.price) }}
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control', 'placeholder': '0.00'}}) }}
+                    {{ form_errors(form.price) }}
+                    <div class="form-help">Prix de vente en euros</div>
+                </div>
 
-            <div class="form-group">
-                {{ form_label(form.stock) }}
-                {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'placeholder': '0', 'min': '0'}}) }}
-                {{ form_errors(form.stock) }}
-                <div class="form-help">Quantité disponible en stock</div>
-            </div>
+                <div class="form-group">
+                    {{ form_label(form.stock) }}
+                    {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'placeholder': '0', 'min': '0'}}) }}
+                    {{ form_errors(form.stock) }}
+                    <div class="form-help">Quantité disponible en stock</div>
+                </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">✅ Créer le produit</button>
-                <a href="{{ path('app_product_index') }}" class="btn btn-secondary">❌ Annuler</a>
-            </div>
-        {{ form_end(form) }}
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Créer le produit</button>
+                    <a href="{{ path('app_product_index') }}" class="btn btn-secondary">Annuler</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 </div>
 {% endblock %}
