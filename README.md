@@ -43,6 +43,6 @@ php bin/console doctrine:migrations:migrate
 - [x] Entité User
 - [x] Authentification JWT
 - [x] CRUD Produits
-- [ ] CRUD Inventaires
+- [x] CRUD Inventaires
 - [ ] Dashboard KPIs
 - [ ] Exports Excel
