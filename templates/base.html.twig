@@ -12,6 +12,405 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {# Navbar globale #}
+        <nav id="globalNavbar" class="global-navbar">
+            <div class="navbar-container">
+                <a href="{{ path('home') }}" class="navbar-logo">
+                    <span class="logo-icon">📦</span>
+                    <span class="logo-text">ERP Inventory</span>
+                </a>
+                
+                <div class="navbar-menu" id="navbarMenu">
+                    {# Menu pour utilisateur non connecté #}
+                    <div id="navbarGuest" class="navbar-guest">
+                        <a href="{{ path('home') }}" class="nav-link">Accueil</a>
+                        <a href="{{ path('app_product_index') }}" class="nav-link">Produits</a>
+                        <a href="{{ path('app_inventory') }}" class="nav-link">Inventaire</a>
+                        <a href="{{ path('login_page') }}" class="nav-link nav-btn">Se connecter</a>
+                        <a href="{{ path('register_page') }}" class="nav-link nav-btn nav-btn-primary">S'inscrire</a>
+                    </div>
+                    
+                    {# Menu pour utilisateur connecté #}
+                    <div id="navbarAuth" class="navbar-auth" style="display: none;">
+                        <a href="{{ path('home') }}" class="nav-link">Accueil</a>
+                        <a href="{{ path('app_product_index') }}" class="nav-link">Produits</a>
+                        <a href="{{ path('app_inventory') }}" class="nav-link">Inventaire</a>
+                        <a href="{{ path('dashboard') }}" class="nav-link">Dashboard</a>
+                        <div class="navbar-user">
+                            <span id="userEmailNav" class="user-email"></span>
+                            <button onclick="window.logout()" class="nav-link nav-btn nav-btn-danger">Déconnexion</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="page-content">
+            {% block body %}{% endblock %}
+        </div>
+
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f8f9fa;
+                color: #212529;
+            }
+            
+            .global-navbar {
+                background: #ffffff;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                padding: 0;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .navbar-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 1rem 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .navbar-logo {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+                color: #212529;
+                font-weight: 700;
+                font-size: 1.5rem;
+                transition: opacity 0.2s;
+            }
+            
+            .navbar-logo:hover {
+                opacity: 0.8;
+            }
+            
+            .logo-icon {
+                font-size: 2rem;
+            }
+            
+            .logo-text {
+                font-weight: 700;
+                letter-spacing: -0.5px;
+            }
+            
+            .navbar-menu {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .navbar-guest,
+            .navbar-auth {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .nav-link {
+                color: #495057;
+                text-decoration: none;
+                font-weight: 500;
+                padding: 10px 16px;
+                border-radius: 6px;
+                transition: all 0.2s;
+                font-size: 15px;
+                white-space: nowrap;
+            }
+            
+            .nav-link:hover {
+                background: #f8f9fa;
+                color: #212529;
+            }
+            
+            .nav-btn {
+                padding: 10px 20px;
+                border: 1px solid #dee2e6;
+                background: #ffffff;
+                font-weight: 500;
+            }
+            
+            .nav-btn:hover {
+                background: #f8f9fa;
+                border-color: #adb5bd;
+            }
+            
+            .nav-btn-primary {
+                background: #0d6efd;
+                border-color: #0d6efd;
+                color: #ffffff !important;
+            }
+            
+            .nav-btn-primary:hover {
+                background: #0b5ed7;
+                border-color: #0a58ca;
+            }
+            
+            .nav-btn-danger {
+                background: #dc3545;
+                border-color: #dc3545;
+                color: #ffffff !important;
+            }
+            
+            .nav-btn-danger:hover {
+                background: #bb2d3b;
+                border-color: #b02a37;
+            }
+            
+            .navbar-user {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding-left: 1rem;
+                border-left: 1px solid #e9ecef;
+            }
+            
+            .user-email {
+                color: #6c757d;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            
+            .page-content {
+                min-height: calc(100vh - 80px);
+                background-color: #f8f9fa;
+            }
+            
+            @media (max-width: 768px) {
+                .navbar-container {
+                    padding: 0.8rem 1rem;
+                    flex-wrap: wrap;
+                }
+                
+                .navbar-menu {
+                    width: 100%;
+                    margin-top: 1rem;
+                    flex-wrap: wrap;
+                    gap: 0.8rem;
+                }
+                
+                .navbar-guest,
+                .navbar-auth {
+                    flex-wrap: wrap;
+                    gap: 0.8rem;
+                }
+                
+                .nav-link {
+                    font-size: 14px;
+                    padding: 6px 12px;
+                }
+                
+                .navbar-user {
+                    flex-direction: column;
+                    border-left: none;
+                    border-top: 2px solid rgba(255, 255, 255, 0.3);
+                    padding-left: 0;
+                    padding-top: 0.8rem;
+                    width: 100%;
+                }
+                
+                .user-email {
+                    font-size: 12px;
+                }
+            }
+        </style>
+
+        <script>
+            // Fonction globale pour mettre à jour la navbar selon l'état de connexion
+            window.updateNavbar = function() {
+                try {
+                    const token = localStorage.getItem('token');
+                    const navbarGuest = document.getElementById('navbarGuest');
+                    const navbarAuth = document.getElementById('navbarAuth');
+                    const userEmailNav = document.getElementById('userEmailNav');
+                    
+                    // Si les éléments n'existent pas encore, réessayer plus tard
+                    if (!navbarGuest && !navbarAuth) {
+                        return;
+                    }
+                    
+                    if (token) {
+                        // Utilisateur connecté
+                        if (navbarGuest) navbarGuest.style.display = 'none';
+                        if (navbarAuth) {
+                            navbarAuth.style.display = 'flex';
+                            
+                            // Décoder le token pour afficher l'email
+                            try {
+                                const payload = JSON.parse(atob(token.split('.')[1]));
+                                if (userEmailNav) {
+                                    userEmailNav.textContent = payload.username || 'Utilisateur';
+                                }
+                            } catch (e) {
+                                console.error('Erreur décodage token', e);
+                                if (userEmailNav) {
+                                    userEmailNav.textContent = 'Utilisateur';
+                                }
+                            }
+                        }
+                    } else {
+                        // Utilisateur non connecté
+                        if (navbarGuest) navbarGuest.style.display = 'flex';
+                        if (navbarAuth) navbarAuth.style.display = 'none';
+                    }
+                } catch (e) {
+                    console.error('Erreur lors de la mise à jour de la navbar', e);
+                }
+            };
+            
+            // Fonction globale de déconnexion
+            window.logout = function() {
+                localStorage.removeItem('token');
+                window.dispatchEvent(new CustomEvent('tokenUpdated'));
+                if (typeof window.updateAuthState === 'function') {
+                    window.updateAuthState();
+                } else if (typeof window.updateNavbar === 'function') {
+                    window.updateNavbar();
+                }
+                window.location.href = '{{ path('home') }}';
+            };
+            
+            // Fonction globale pour mettre à jour tous les boutons CRUD selon l'état de connexion
+            window.updateAuthButtons = function() {
+                try {
+                    const token = localStorage.getItem('token');
+                    
+                    // Boutons produits
+                    const newProductBtn = document.getElementById('newProductBtn');
+                    const createFirstProductBtn = document.getElementById('createFirstProductBtn');
+                    const loginPrompt = document.getElementById('loginPrompt');
+                    const productAuthActions = document.querySelectorAll('.action-requires-auth');
+                    
+                    // Boutons inventaire
+                    const newInventoryBtn = document.getElementById('newInventoryBtn');
+                    const createFirstInventoryBtn = document.getElementById('createFirstInventoryBtn');
+                    const inventoryLoginPrompt = document.querySelectorAll('#loginPrompt');
+                    const inventoryAuthActions = document.querySelectorAll('.action-requires-auth');
+                    
+                    if (token) {
+                        // Utilisateur connecté - afficher tous les boutons
+                        if (newProductBtn) newProductBtn.style.display = 'inline-block';
+                        if (createFirstProductBtn) {
+                            createFirstProductBtn.style.display = 'inline-block';
+                        }
+                        if (loginPrompt) loginPrompt.style.display = 'none';
+                        productAuthActions.forEach(action => {
+                            action.style.display = 'inline-block';
+                        });
+                        
+                        if (newInventoryBtn) newInventoryBtn.style.display = 'inline-block';
+                        if (createFirstInventoryBtn) {
+                            createFirstInventoryBtn.style.display = 'inline-block';
+                        }
+                        inventoryLoginPrompt.forEach(prompt => {
+                            prompt.style.display = 'none';
+                        });
+                        inventoryAuthActions.forEach(action => {
+                            action.style.display = 'inline-block';
+                        });
+                    } else {
+                        // Utilisateur non connecté - cacher les boutons
+                        if (newProductBtn) newProductBtn.style.display = 'none';
+                        if (createFirstProductBtn) createFirstProductBtn.style.display = 'none';
+                        if (loginPrompt) loginPrompt.style.display = 'block';
+                        productAuthActions.forEach(action => {
+                            action.style.display = 'none';
+                        });
+                        
+                        if (newInventoryBtn) newInventoryBtn.style.display = 'none';
+                        if (createFirstInventoryBtn) createFirstInventoryBtn.style.display = 'none';
+                        inventoryLoginPrompt.forEach(prompt => {
+                            prompt.style.display = 'block';
+                        });
+                        inventoryAuthActions.forEach(action => {
+                            action.style.display = 'none';
+                        });
+                    }
+                } catch (e) {
+                    console.error('Erreur lors de la mise à jour des boutons CRUD', e);
+                }
+            };
+            
+            // Fonction pour mettre à jour à la fois la navbar et les boutons CRUD
+            window.updateAuthState = function() {
+                window.updateNavbar();
+                window.updateAuthButtons();
+            };
+            
+            // Mettre à jour immédiatement (même avant DOMContentLoaded)
+            (function() {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', window.updateAuthState);
+                } else {
+                    window.updateAuthState();
+                }
+            })();
+            
+            // Mettre à jour au chargement complet
+            document.addEventListener('DOMContentLoaded', function() {
+                window.updateAuthState();
+                
+                // Écouter les changements de localStorage (si l'utilisateur se connecte/déconnecte depuis un autre onglet)
+                window.addEventListener('storage', function(e) {
+                    if (e.key === 'token') {
+                        window.updateAuthState();
+                    }
+                });
+                
+                // Écouter les événements personnalisés pour mettre à jour
+                window.addEventListener('tokenUpdated', function() {
+                    window.updateAuthState();
+                });
+                
+                // Intercepter les clics sur les liens de la navbar pour mettre à jour avant navigation
+                const navLinks = document.querySelectorAll('.navbar-menu a, .navbar-menu button');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        // Mettre à jour juste avant la navigation
+                        window.updateAuthState();
+                    });
+                });
+                
+                // Vérifier périodiquement l'état du token (toutes les 1000ms) pour détecter les changements
+                setInterval(function() {
+                    window.updateAuthState();
+                }, 1000);
+            });
+            
+            // Mettre à jour lors des événements de navigation (pour Turbo si utilisé)
+            document.addEventListener('turbo:load', function() {
+                window.updateAuthState();
+            });
+            
+            window.addEventListener('pageshow', function() {
+                window.updateAuthState();
+            });
+            
+            // Vérifier l'authentification pour les redirections
+            (function() {
+                const loginPath = '{{ path('login_page') }}';
+                const registerPath = '{{ path('register_page') }}';
+                const dashboardPath = '{{ path('dashboard') }}';
+                
+                const authPages = [loginPath, registerPath];
+                const path = window.location.pathname;
+                const token = localStorage.getItem('token');
+                
+                if (token && authPages.includes(path)) {
+                    window.location.href = dashboardPath;
+                }
+            })();
+        </script>
     </body>
 </html>
