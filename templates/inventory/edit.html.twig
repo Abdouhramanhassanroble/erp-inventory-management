@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Mouvement - Inventaire{% endblock %}
+
+{% block body %}
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Vous devez être connecté pour modifier un mouvement d\'inventaire.');
+            window.location.href = '{{ path('login_page') }}';
+        }
+    });
+</script>
+
+<style>
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4c4b0 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        padding: 2.5rem;
+        border: 3px solid #d1fae5;
+    }
+    .card-header {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        margin: -2.5rem -2.5rem 2rem -2.5rem;
+        padding: 2rem;
+        border-radius: 20px 20px 0 0;
+        color: white;
+        text-align: center;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2.2rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    .form-group {
+        margin-bottom: 1.8rem;
+    }
+    label {
+        display: block;
+        margin-bottom: 0.8rem;
+        color: #065f46;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+    .form-control {
+        width: 100%;
+        padding: 14px 18px;
+        border: 3px solid #a7f3d0;
+        border-radius: 12px;
+        font-size: 16px;
+        transition: all 0.3s;
+        box-sizing: border-box;
+        background: #d1fae5;
+        font-family: inherit;
+    }
+    .form-control:focus {
+        outline: none;
+        border-color: #22c55e;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+    }
+    .form-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 2.5rem;
+    }
+    .btn {
+        padding: 16px 32px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        flex: 1;
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        color: white;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+    }
+    .btn-secondary {
+        background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+        color: white;
+    }
+    .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(107, 114, 128, 0.4);
+    }
+    .form-error {
+        color: #dc2626;
+        font-size: 14px;
+        margin-top: 6px;
+        font-weight: 600;
+    }
+    .form-help {
+        color: #065f46;
+        font-size: 13px;
+        margin-top: 6px;
+        font-style: italic;
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>✏️ Modifier le mouvement</h1>
+        </div>
+
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.product) }}
+                {{ form_widget(form.product, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.product) }}
+                <div class="form-help">Sélectionnez le produit concerné par ce mouvement</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.quantity) }}
+                {{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.quantity) }}
+                <div class="form-help">Quantité à ajouter ou retirer</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.movement_type) }}
+                {{ form_widget(form.movement_type, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.movement_type) }}
+                <div class="form-help">Entrée = ajout de stock, Sortie = retrait de stock</div>
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.utilisateur) }}
+                {{ form_widget(form.utilisateur, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.utilisateur) }}
+                <div class="form-help">Utilisateur responsable de ce mouvement (optionnel)</div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">💾 Enregistrer les modifications</button>
+                <a href="{{ path('app_inventory') }}" class="btn btn-secondary">❌ Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

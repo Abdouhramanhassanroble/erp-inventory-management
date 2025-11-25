@@ -1,20 +1,308 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InventoryController!{% endblock %}
+{% block title %}Gestion d'Inventaire - ERP{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    body {
+        font-family: 'Georgia', 'Times New Roman', serif;
+        background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #d4c4b0 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+    }
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    .header {
+        background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 8px 24px rgba(34, 197, 94, 0.3);
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+    }
+    h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        font-weight: bold;
+    }
+    .btn {
+        padding: 14px 28px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 700;
+        display: inline-block;
+        transition: all 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .btn-primary {
+        background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        color: white;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+    }
+    .btn-success {
+        background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    .btn-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    .btn-danger {
+        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+    .alert {
+        padding: 16px 20px;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .alert-success {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border: 2px solid #10b981;
+    }
+    .inventories-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 24px;
+        margin-top: 24px;
+    }
+    .inventory-card {
+        background: white;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+        position: relative;
+        overflow: hidden;
+    }
+    .inventory-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #16a34a 0%, #22c55e 50%, #16a34a 100%);
+    }
+    .inventory-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 40px rgba(34, 197, 94, 0.25);
+        border-color: #22c55e;
+    }
+    .inventory-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 16px;
+    }
+    .inventory-id {
+        background: #d1fae5;
+        color: #065f46;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .movement-badge {
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .movement-entry {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+        border: 2px solid #10b981;
+    }
+    .movement-exit {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+        border: 2px solid #ef4444;
+    }
+    .inventory-product {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #1f2937;
+        margin: 12px 0;
+    }
+    .inventory-details {
+        color: #6b7280;
+        font-size: 14px;
+        margin: 8px 0;
+    }
+    .inventory-quantity {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #16a34a;
+        margin: 16px 0;
+        text-align: center;
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        padding: 12px;
+        border-radius: 12px;
+        border: 2px dashed #10b981;
+    }
+    .inventory-date {
+        text-align: center;
+        color: #9ca3af;
+        font-size: 12px;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px dashed #e5e7eb;
+    }
+    .inventory-actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    .inventory-actions form {
+        flex: 1;
+        min-width: 100px;
+    }
+    .inventory-actions .btn {
+        width: 100%;
+    }
+    .empty-state {
+        background: white;
+        border-radius: 20px;
+        padding: 60px 40px;
+        text-align: center;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .empty-state h2 {
+        color: #16a34a;
+        font-size: 2rem;
+        margin-bottom: 16px;
+    }
+    .empty-state p {
+        color: #6b7280;
+        font-size: 1.1rem;
+        margin-bottom: 24px;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="container">
+    <div class="header">
+        <h1>📊 Gestion d'Inventaire</h1>
+        <a href="{{ path('app_inventory_new') }}" id="newInventoryBtn" class="btn btn-primary" style="display: none;">➕ Nouveau Mouvement</a>
+    </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/ibrahimhassan/Desktop/Dev/Symfony/erp-inventory-management/src/Controller/InventoryController.php</code></li>
-        <li>Your template at <code>/Users/ibrahimhassan/Desktop/Dev/Symfony/erp-inventory-management/templates/inventory/index.html.twig</code></li>
-    </ul>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {% if inventories|length > 0 %}
+        <div class="inventories-grid">
+            {% for inventory in inventories %}
+                <div class="inventory-card">
+                    <div class="inventory-header">
+                        <span class="inventory-id">#{{ inventory.id }}</span>
+                        <span class="movement-badge {% if inventory.movement_type == 'ENTRY' %}movement-entry{% else %}movement-exit{% endif %}">
+                            {% if inventory.movement_type == 'ENTRY' %}
+                                ⬆️ Entrée
+                            {% else %}
+                                ⬇️ Sortie
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="inventory-product">{{ inventory.product_name ?: 'Produit #' ~ inventory.product_id }}</div>
+                    <div class="inventory-details">Réf: {{ inventory.product_reference ?: 'N/A' }}</div>
+                    
+                    <div class="inventory-quantity">
+                        {{ inventory.quantity }} unités
+                    </div>
+                    
+                    {% if inventory.user_email %}
+                    <div class="inventory-details">
+                        👤 Utilisateur: {{ inventory.user_email }}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="inventory-date">
+                        Enregistré le {{ inventory.created_at ? inventory.created_at|date('d/m/Y à H:i') : 'N/A' }}
+                    </div>
+                    
+                    <div class="inventory-actions">
+                        <a href="{{ path('app_inventory_show', {'id': inventory.id}) }}" class="btn btn-success">👁️ Voir</a>
+                        <a href="{{ path('app_inventory_edit', {'id': inventory.id}) }}" class="btn btn-warning action-requires-auth" style="display: none;">✏️ Modifier</a>
+                        <form method="post" action="{{ path('app_inventory_delete', {'id': inventory.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce mouvement ?');" class="action-requires-auth" style="display: none;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ inventory.id) }}">
+                            <button type="submit" class="btn btn-danger">🗑️ Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>📦 Aucun mouvement enregistré</h2>
+            <p>Il n'y a aucun mouvement d'inventaire pour le moment.</p>
+            <a href="{{ path('app_inventory_new') }}" id="createFirstInventoryBtn" class="btn btn-primary" style="display: none;">Créer le premier mouvement</a>
+            <p id="loginPrompt" style="color: #065f46; font-size: 1.1rem; margin-top: 1rem;">Connectez-vous pour enregistrer des mouvements</p>
+        </div>
+    {% endif %}
 </div>
+
+<script>
+    // Utiliser la fonction globale pour mettre à jour les boutons
+    window.addEventListener('DOMContentLoaded', () => {
+        if (typeof window.updateAuthButtons === 'function') {
+            window.updateAuthButtons();
+        } else {
+            // Fallback si la fonction globale n'est pas encore disponible
+            const token = localStorage.getItem('token');
+            const newInventoryBtn = document.getElementById('newInventoryBtn');
+            const createFirstInventoryBtn = document.getElementById('createFirstInventoryBtn');
+            const loginPrompt = document.getElementById('loginPrompt');
+            const authActions = document.querySelectorAll('.action-requires-auth');
+            
+            if (token) {
+                if (newInventoryBtn) newInventoryBtn.style.display = 'inline-block';
+                if (createFirstInventoryBtn) {
+                    createFirstInventoryBtn.style.display = 'inline-block';
+                    if (loginPrompt) loginPrompt.style.display = 'none';
+                }
+                authActions.forEach(action => {
+                    action.style.display = 'inline-block';
+                });
+            } else {
+                if (newInventoryBtn) newInventoryBtn.style.display = 'none';
+                if (createFirstInventoryBtn) createFirstInventoryBtn.style.display = 'none';
+                authActions.forEach(action => {
+                    action.style.display = 'none';
+                });
+            }
+        }
+    });
+    
+    // Écouter les changements de token
+    window.addEventListener('tokenUpdated', () => {
+        if (typeof window.updateAuthButtons === 'function') {
+            window.updateAuthButtons();
+        }
+    });
+</script>
 {% endblock %}
