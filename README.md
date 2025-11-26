@@ -44,5 +44,5 @@ php bin/console doctrine:migrations:migrate
 - [x] Authentification JWT
 - [x] CRUD Produits
 - [x] CRUD Inventaires
-- [ ] Dashboard KPIs
+- [x] Dashboard KPIs
 - [ ] Exports Excel
